@@ -95,3 +95,6 @@ for i in range(1, n+1):
     else:
         mynum.append(f1)
 print(mynum)
+
+
+

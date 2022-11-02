@@ -79,7 +79,7 @@ print(roots)
 
 
 
-#A program to solve quadratic equation
+#A program to solve equation
 print('A program to solve quadratic equation')
 R=8.314
 T=float(input('enter T '))
