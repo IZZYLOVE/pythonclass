@@ -12,18 +12,30 @@ try:
             print("... DONE ...")
         def acceptedtempx(self):
             Acceptedtemp = ['CELCIUS', 'CELCIUS(C)', 'C', 'FAHRENHEIT', 'FAHRENHEIT(F)', 'F', 'KELVIN', 'KELVIN(K)',
-                            'K',
-                            'RANKINE', 'RANKINE(R)', 'R']
+                            'K', 'RANKINE', 'RANKINE(R)', 'R']
             return Acceptedtemp
         def acceptedlengthx(self):
             Acceptedlength = ['METER', 'METER(M)', 'M', 'CENTIMETER', 'CENTIMETER(CM)', 'CM', 'FEET', 'FEET(FT)', 'FT',
                               'INCH', 'INCH(")', '"']
             return Acceptedlength
     class Temp_driver(Notice):
-        def __init__(self, fromx: str, to: str, value: float):
-            self.fromx = fromx
-            self.to = to
-            self.value = value
+        def __init__(self, *args):
+            args = args
+            lenargs = len(args)
+            if lenargs > 3 or lenargs < 3:
+                print("Please enter only three parameters!")
+                check_args = 'no'
+            else: # catch the first two parameters that a naturally strings
+                self.fromx = str(args[0]).upper()
+                self.to = str(args[1]).upper()
+                check_args = 'ok'
+            try:# check if the last parameter is a number
+                self.value = float(args[2])
+            except:
+                print('the last parameter should be a number')
+                check_args = 'no'
+            if check_args=='ok':
+                pass
         def head(self):# applying polymorphism on the head method
             print("... CONVERTING TEMPERATURE ...")
         # Using methods names that matches the method names that will be generated/derived below from user inputs to create methods
@@ -59,7 +71,6 @@ try:
             f = self.value
             r = (f + 459.69)
             print(f"{f} degree Fahrenheit = {r} degree Rankine"), Notice.done(self)
-
         def k_to_f(self):
             k = self.value
             f = (k * (9 / 5)) - 459.67
@@ -122,10 +133,23 @@ try:
                 print('CONVERTING TO SAME UNITE')
                 print(f'Convertion, {self.value}{self.fromx} = {self.value}{self.to}')
     class Lenght_driver(Notice):
-        def __init__(self, fromx: str, to: str, value: float):
-            self.fromx = fromx
-            self.to = to
-            self.value = value
+        def __init__(self, *args):
+            args = args
+            lenargs = len(args)
+            if lenargs > 3 or lenargs < 3:# check if given parameters is not three
+                print("Please enter only three parameters!")
+                check_args = 'no'
+            else:# catch the first two parameters that are naturally strings
+                self.fromx = str(args[0]).upper()
+                self.to = str(args[1]).upper()
+                check_args = 'ok'
+            try:# check if the last parameter is a number
+                self.value = float(args[3])
+            except:
+                print('the last parameter should be a number')
+                check_args = 'no'
+            if check_args=='ok':
+                pass
         def head(self):# applying polymorphism on the head method
             print("... CONVERTING LENGTH ...")
         # Using methods names that matches the method names that will be generated/derived below from user inputs to create methods
@@ -226,59 +250,74 @@ try:
             elif F'{self.A}_to_{self.B}' == F'{self.A}_to_{self.B}':
                 print('CONVERTING TO SAME UNITE')
                 print(f'Convertion, {self.value}{self.fromx} = {self.value}{self.to}')
+
     class Converter(Notice):# Supper claSS
-        def __init__(self, type: str, fromx: str, to: str, value: float):
-            self.type = type
-            self.fromx = fromx
-            self.to = to
-            self.value = value
-            # Actions to execute
-            # validate the units
-            if self.type.upper() == 'TEMPERATURE' or self.type.upper() == 'T' or self.type.upper() == 'TEMP' or self.type.upper() == 'TEMPERATURE(T)':
-                accepted = Converter.acceptedtempx(self)
-                Driver = Temp_driver(self.fromx, self.to, self.value)
-                proceed = 'yes'
-            elif self.type.upper() == 'L' or self.type.upper() == 'LENGHT' or self.type.upper() == 'LEN' or self.type.upper() == 'LENGHT(T)':
-                accepted = Converter.acceptedlengthx(self)
-                Driver = Lenght_driver(self.fromx, self.to, self.value)
-                proceed = 'yes'
-            else:
-                Driver = accepted = ''
-                print(f"Error: The 'type' parameter {self.type} is not accepted!")
-                proceed = 'no', Converter.terminate(self)
-
-            if proceed == 'yes':
-                if self.fromx.upper() in accepted and self.to.upper() in accepted:
-                    Driver.exe()
-                else:
-                    print("Error: Conversion units does not belong to the same class of measurement!"), Converter.terminate(self)
-    class Interface:
-        goo = 'off'
-        Notice.head(goo)
-        type = input('Enter L for Lenght or T for Temperature: ').strip()
-        if type.upper() == 'TEMPERATURE' or type.upper() == 'T' or type.upper() == 'TEMP' or type.upper() == 'TEMPERATURE(T)':
-            print("The accepted units of Temperature are Celsius(C), Fahrenheit(F), Kelvin(K) and Rankine(R)")
-            proceed = 'on'
-        elif type.upper() == 'L' or type.upper() == 'LENGTH(L)' or type.upper() == 'LENGTH':
-            print('The accepted units of Lenght are centimeter(cm), meter(m), feet(Ft), inch(")')
-            proceed = 'on'
-        else:
-            Notice.processing(type), print("Conversion type not supported!!!")
-            proceed = 'off'
-
-        if proceed == "on":
-            fromx = input("Enter 'From' unit: ").strip()
-            to = input("Enter 'To' unit: ").strip()
-            try:
-                value = float(input('enter number value: ').strip())
-                goo = 'on'
+        def __init__(self, *args):
+            args = args
+            lenargs = len(args)
+            if lenargs > 4 or lenargs < 4:
+                print("Please enter only four parameters!")
+                check_args = 'no'
+            else:# catch the first three parameters that are naturally strings
+                self.type = str(args[0]).upper()
+                self.fromx = str(args[1]).upper()
+                self.to = str(args[2]).upper()
+                check_args = 'ok'
+            try:# check if the last parameter is a number
+                self.value = float(args[3])
             except:
-                Notice.processing(type), print(f"ERROR: entered value is not a number!")
-                goo = 'off', Notice.terminate(type)
-            if goo == "on":
-                Notice.processing(type), Converter(type, fromx, to, value)
-        else:
-            Notice.terminate(type)
+                print('the last parameter should be a number')
+                check_args='no'
+
+            if check_args=='ok':
+                if self.type.upper() == 'TEMPERATURE' or self.type.upper() == 'T' or self.type.upper() == 'TEMP' or self.type.upper() == 'TEMPERATURE(T)':
+                    accepted = Converter.acceptedtempx(self)
+                    Driver = Temp_driver(self.fromx, self.to, self.value)
+                    proceed = 'yes'
+                elif self.type.upper() == 'L' or self.type.upper() == 'LENGHT' or self.type.upper() == 'LEN' or self.type.upper() == 'LENGHT(T)':
+                    accepted = Converter.acceptedlengthx(self)
+                    Driver = Lenght_driver(self.fromx, self.to, self.value)
+                    proceed = 'yes'
+                else:
+                    Driver = accepted = ''
+                    print(f"Error: The 'type' parameter {self.type} is not accepted!")
+                    proceed = 'no', Converter.terminate(self)
+
+                if proceed == 'yes':
+                    if self.fromx.upper() in accepted and self.to.upper() in accepted:
+                        Driver.exe()
+                    else:
+                        print("Error: Conversion units does not belong to the same class of measurement!")
+                        Converter.terminate(self)
+    class Interface:
+        def __init__(self):
+            goo = 'off'
+            Notice.head(goo)
+            type = input('Enter L for Lenght or T for Temperature: ').strip()
+            if type.upper() == 'TEMPERATURE' or type.upper() == 'T' or type.upper() == 'TEMP' or type.upper() == 'TEMPERATURE(T)':
+                print("The accepted units of Temperature are Celsius(C), Fahrenheit(F), Kelvin(K) and Rankine(R)")
+                proceed = 'on'
+            elif type.upper() == 'L' or type.upper() == 'LENGTH(L)' or type.upper() == 'LENGTH':
+                print('The accepted units of Lenght are centimeter(cm), meter(m), feet(Ft), inch(")')
+                proceed = 'on'
+            else:
+                Notice.processing(type), print("Conversion type not supported!!!")
+                proceed = 'off'
+
+            if proceed == "on":
+                fromx = input("Enter 'From' unit: ").strip()
+                to = input("Enter 'To' unit: ").strip()
+                try:
+                    value = float(input('enter number value: ').strip())
+                    goo = 'on'
+                except:
+                    Notice.processing(type), print(f"ERROR: entered value is not a number!")
+                    goo = 'off', Notice.terminate(type)
+                if goo == "on":
+                    Notice.processing(type), \
+                    Converter(type, fromx, to, value)
+            else:
+                Notice.terminate(type)
     Interface()
 except:
     print("Program Error; E1")
